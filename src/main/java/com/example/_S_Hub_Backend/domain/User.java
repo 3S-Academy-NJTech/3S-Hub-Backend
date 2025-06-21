@@ -40,7 +40,6 @@ public class User {
     private String userPassword;
     private String userName;
     private String userEmail;
-    private String userSex;
     private Byte userStatus;//用户状态1：激活 0：未激活
 
 

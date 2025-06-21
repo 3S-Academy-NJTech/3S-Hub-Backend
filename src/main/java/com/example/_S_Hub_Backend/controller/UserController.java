@@ -33,8 +33,21 @@ public class UserController {
 
     @PostMapping("/login")
     public User userLogin(@RequestParam String email, @RequestParam String password) {
-        System.out.println("Login attempt: " + email + " " + password);
-        return userService.userLogin(email, password);
+        System.out.println("Login attempt: " + email);
+        
+        // Find user by email first
+        User user = userRepository.findByUserEmail(email);
+        if (user == null) {
+            return null; // User not found
+        }
+        
+        // Verify password using BCrypt
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (passwordEncoder.matches(password, user.getUserPassword())) {
+            return user; // Login successful
+        } else {
+            return null; // Invalid password
+        }
     }
 
     @GetMapping("/hot")
@@ -49,14 +62,12 @@ public class UserController {
             @RequestParam String userName,
             @RequestParam String userPassword,
             @RequestParam String userShow,
-            @RequestParam String userEmail,
-            @RequestParam String userSex) {
+            @RequestParam String userEmail) {
 
         User user = new User();
         user.setUserImg("default.jpg");
         user.setUserEmail(userEmail);
         user.setUserName(userName);
-        user.setUserSex(userSex);
         user.setUserShow(userShow);
         user.setUserBlog("myself");
         user.setUserTime(new Date());
