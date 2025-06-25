@@ -18,8 +18,6 @@ import java.util.List;
  * 包含以下方法：
  * - getAllArticles: 获取所有文章列表
  * - getArticlesByTypeId: 根据文章类型ID查询对应的文章及其作者信息
- * - getArtAndUserInfo: 分页查询所有文章及其作者信息
- * - getArticleAndUser: 分页查询所有文章及其作者信息，适用于主页面等特殊场景
  * - getNewArticles: 分页查询最新的文章及其作者信息
  * - createNewPost: 发布新文章
  * - findArticlesByUserId: 根据用户ID查询对应的文章列表
@@ -43,24 +41,6 @@ public class ArticleController {
     public List<ViewArtAndUser> getArticlesByTypeId(@RequestParam Long typeId) {
         System.out.println(typeId);
         return articleService.findArticlesByTypeId(typeId);
-    }
-
-    @PostMapping("/page")
-    public Page<ViewArtAndUser> getArtAndUserInfo(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "5") Integer size) {
-        System.out.println(page);
-        return articleService.findAllArtAndUser(page, size);
-    }
-
-    @GetMapping("/get-page")
-    public Page<ViewArtAndUser> getArticleAndUser(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "2") Integer size) {
-        System.out.println(page);
-        int adjustedPage = page > 0 ? page - 1 : page;
-        System.out.println(adjustedPage);
-        return articleService.findArtAndUser(adjustedPage, size);
     }
 
     @GetMapping("/get-new")

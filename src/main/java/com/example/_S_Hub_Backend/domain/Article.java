@@ -38,11 +38,5 @@ public class Article {
     private String artTitle; //文章标题
     private Long artTypeId; //文章类型id
     private String artContent; //文章内容
-    private Long artCommentId;//评论id
     private Date artCreTime;//创建时间
-    private Integer artView;//浏览量
-    private Integer artComNum;//评论数
-    private Integer artHotNum;//热度
-    private Integer artLikeNum;//点赞数
-
 }

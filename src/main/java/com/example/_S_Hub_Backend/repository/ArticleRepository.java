@@ -38,6 +38,7 @@ import java.util.List;
  * 注意事项：
  * - ViewArtAndUser 是自定义的结果映射类，用于封装文章和用户的联合信息。
  * - 所有自定义查询均使用 JPQL 实现，确保实体类字段与数据库字段一致。
+ * - incrementLikeCount 和 decrementLikeCount 方法使用 @Modifying 注解，需要在事务环境中调用。
  */
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {

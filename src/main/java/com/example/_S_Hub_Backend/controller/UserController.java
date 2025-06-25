@@ -50,13 +50,6 @@ public class UserController {
         }
     }
 
-    @GetMapping("/hot")
-    public Page<User> getHotUsers(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "3") Integer size) {
-        return userService.findHotUser(page, size);
-    }
-
     @PostMapping("/register")
     public int signUp(
             @RequestParam String userName,
@@ -65,11 +58,9 @@ public class UserController {
             @RequestParam String userEmail) {
 
         User user = new User();
-        user.setUserImg("default.jpg");
         user.setUserEmail(userEmail);
         user.setUserName(userName);
         user.setUserShow(userShow);
-        user.setUserBlog("myself");
         user.setUserTime(new Date());
         
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

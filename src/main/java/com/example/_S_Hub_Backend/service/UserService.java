@@ -1,6 +1,5 @@
 package com.example._S_Hub_Backend.service;
 import com.example._S_Hub_Backend.domain.User;
-import org.springframework.data.domain.Page;
 
 /**
  * UserService 接口定义了与 User 实体相关的业务逻辑方法。
@@ -14,5 +13,4 @@ import org.springframework.data.domain.Page;
 public interface UserService {
     User userLogin(String email,String password);
     User userRegister(User user);
-    Page<User> findHotUser(Integer page,Integer size);
 }

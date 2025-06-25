@@ -3,10 +3,6 @@ import com.example._S_Hub_Backend.domain.User;
 import com.example._S_Hub_Backend.repository.UserRepository;
 import com.example._S_Hub_Backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,11 +29,5 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User userRegister(User user) {
         return userRepository.save(user);
-    }
-
-    @Override
-    public Page<User> findHotUser(Integer page, Integer size) {
-        Pageable pageable= PageRequest.of(page,size, Sort.Direction.DESC,"userFans");
-        return userRepository.findAll(pageable);
     }
 }
