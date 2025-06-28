@@ -1,5 +1,6 @@
 package com.example._S_Hub_Backend.controller;
 
+import com.example._S_Hub_Backend.controller.request.CreateArticleRequest;
 import com.example._S_Hub_Backend.domain.Article;
 import com.example._S_Hub_Backend.repository.ArticleRepository;
 import com.example._S_Hub_Backend.service.ArticleService;
@@ -21,6 +22,7 @@ import java.util.List;
  * - getNewArticles: 分页查询最新的文章及其作者信息
  * - createNewPost: 发布新文章
  * - findArticlesByUserId: 根据用户ID查询对应的文章列表
+ * - getArticleDetail: 根据文章ID获取文章详情及作者信息
  */
 @RestController
 @RequestMapping("/articles")
@@ -50,17 +52,19 @@ public class ArticleController {
         return articleService.findnew(page, size);
     }
 
+    /**
+     * 发布新文章
+     * 支持巨量文字内容，无长度限制
+     * @param request 包含文章信息的请求对象
+     * @return 操作结果状态码（200-成功，400-失败）
+     */
     @PostMapping("/new-post")
-    public int createNewPost(
-            @RequestParam Long userId,
-            @RequestParam String title,
-            @RequestParam String text,
-            @RequestParam Long select) {
+    public int createNewPost(@RequestBody CreateArticleRequest request) {
         Article article = new Article();
-        article.setArtUserId(userId);
-        article.setArtTitle(title);
-        article.setArtContent(text);
-        article.setArtTypeId(select);
+        article.setArtUserId(request.getUserId());
+        article.setArtTitle(request.getTitle());
+        article.setArtContent(request.getText()); // 支持巨量文字内容，无长度限制
+        article.setArtTypeId(request.getSelect());
         article.setArtCreTime(new Date());
 
         return articleService.Post(article) != null ? 200 : 400;
@@ -69,5 +73,15 @@ public class ArticleController {
     @PostMapping("/find-by-user-id")
     public List<Article> findArticlesByUserId(@RequestParam Long userId) {
         return articleRepository.findAllByArtUserId(userId);
+    }
+
+    /**
+     * 根据文章ID获取文章详情
+     * @param articleId 文章ID
+     * @return ViewArtAndUser 文章详情及作者信息，如果文章不存在则返回null
+     */
+    @GetMapping("/{articleId}")
+    public ViewArtAndUser getArticleDetail(@PathVariable Long articleId) {
+        return articleService.findArticleDetailById(articleId);
     }
 }

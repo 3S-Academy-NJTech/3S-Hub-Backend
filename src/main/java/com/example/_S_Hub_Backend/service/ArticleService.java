@@ -16,7 +16,8 @@ import java.util.List;
  * - findnew: 分页查询最新的文章及其作者信息。
  * - findAllArtAndUser: 分页查询所有文章及其作者信息，适用于主页面等特殊场景。
  * - Post: 发布新文章。
-*/
+ * - findArticleDetailById: 根据文章ID获取文章详情及作者信息。
+ */
 public interface ArticleService {
     List<Article> getAllArticle();
     Page<Article> findArticleNoCriteria(Integer page, Integer size);//无条件查询
@@ -25,4 +26,5 @@ public interface ArticleService {
     Page<ViewArtAndUser> findnew(Integer page, Integer size);
     Page<ViewArtAndUser> findAllArtAndUser(Integer page, Integer size);
     Article Post(Article article);
+    ViewArtAndUser findArticleDetailById(Long articleId);
 }

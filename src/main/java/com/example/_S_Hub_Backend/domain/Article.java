@@ -1,4 +1,5 @@
 package com.example._S_Hub_Backend.domain;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,6 +38,8 @@ public class Article {
     private Long artUserId;
     private String artTitle; //文章标题
     private Long artTypeId; //文章类型id
-    private String artContent; //文章内容
+    
+    @Column(columnDefinition = "LONGTEXT")
+    private String artContent; //文章内容（支持巨量文字，无长度限制）
     private Date artCreTime;//创建时间
 }

@@ -69,5 +69,10 @@ public class ArticleServiceImpl implements ArticleService {
     public Article Post(Article article) {
         return articleRepository.save(article);
     }
+
+    @Override
+    public ViewArtAndUser findArticleDetailById(Long articleId) {
+        return articleRepository.findArticleDetailById(articleId);
+    }
 }
 

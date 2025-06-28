@@ -35,6 +35,11 @@ import java.util.List;
  *    - 根据用户ID查询该用户发布的所有文章。
  *    - 返回 Article 实体列表。
  * 
+ * 5. findArticleDetailById(Long articleId)
+ *    - 根据文章ID查询文章详情。
+ *    - 返回 ViewArtAndUser 结果映射的对象。
+ *    - 使用 JPQL 联合 Article 和 User 实体，条件为 a.artUserId = u.userId 且 a.artId = :articleId。
+ * 
  * 注意事项：
  * - ViewArtAndUser 是自定义的结果映射类，用于封装文章和用户的联合信息。
  * - 所有自定义查询均使用 JPQL 实现，确保实体类字段与数据库字段一致。
@@ -53,6 +58,10 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query("SELECT new com.example._S_Hub_Backend.resultmap.ViewArtAndUser(a, u) " +
            "FROM Article a, User u WHERE a.artUserId = u.userId")
     Page<ViewArtAndUser> findViewArtAndUserMain(Pageable pageable);
+
+    @Query("SELECT new com.example._S_Hub_Backend.resultmap.ViewArtAndUser(a, u) " +
+           "FROM Article a, User u WHERE a.artUserId = u.userId AND a.artId = :articleId")
+    ViewArtAndUser findArticleDetailById(@Param("articleId") Long articleId);
 
     List<Article> findAllByArtUserId(Long userId);
 }
