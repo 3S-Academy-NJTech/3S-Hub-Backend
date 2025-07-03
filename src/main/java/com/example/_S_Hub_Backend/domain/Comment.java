@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 评论实体类
@@ -16,8 +15,6 @@ import java.util.List;
  * commentTime: 评论时间
  * article: 所属文章（多对一）
  * user: 评论用户（多对一）
- * parentComment: 父评论（用于回复其他评论，支持嵌套）
- * childComments: 子评论列表（一对多）
  */
 @Entity
 @Data
@@ -46,12 +43,4 @@ public class Comment {
     @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User user;
     
-    // 自关联：父评论（多对一）
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_comment_id", referencedColumnName = "commentId")
-    private Comment parentComment;
-    
-    // 自关联：子评论列表（一对多）
-    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Comment> childComments;
 }

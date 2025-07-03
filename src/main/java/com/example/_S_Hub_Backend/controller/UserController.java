@@ -5,7 +5,6 @@ import com.example._S_Hub_Backend.repository.UserRepository;
 import com.example._S_Hub_Backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;

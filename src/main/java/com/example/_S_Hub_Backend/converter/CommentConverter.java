@@ -35,15 +35,6 @@ public class CommentConverter {
                    .userName(comment.getUser().getUserName());
         }
         
-        // 设置父评论信息
-        if (comment.getParentComment() != null) {
-            builder.parentCommentId(comment.getParentComment().getCommentId())
-                   .parentCommentContent(comment.getParentComment().getCommentContent());
-            if (comment.getParentComment().getUser() != null) {
-                builder.parentCommentUserName(comment.getParentComment().getUser().getUserName());
-            }
-        }
-        
         return builder.build();
     }
 }
