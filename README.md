@@ -8,10 +8,10 @@
 
 ## 2. 技术栈
 
-- **核心框架**: Spring Boot 2.x
-- **开发语言**: Java 8+
+- **核心框架**: Spring Boot 3.5.0
+- **开发语言**: Java 17
 - **数据访问**: Spring Data JPA (Hibernate)
-- **数据库**: (未指定，但兼容所有JPA支持的关系型数据库，如 MySQL, PostgreSQL)
+- **数据库**: MySQL
 - **API风格**: RESTful API
 - **构建工具**: Apache Maven
 - **Web服务器**: Embedded Tomcat
@@ -64,6 +64,60 @@
     - **跨域处理**: 通过 `GlobalCorsConfig.java` 实现全局CORS配置，允许指定来源的前端应用进行跨域访问，这是现代前后端分离架构的必备配置。
     - **自定义错误页**: `ErrorPageConfig.java` 展示了对Spring Boot内置错误处理机制的定制能力，可以为不同的HTTP错误状态码（如404, 500）配置友好的返回页面或JSON响应。
 
-## 5. 项目总结
+## 5. 项目结构详解
 
-3S-Hub-Backend 不仅是一个功能性的Web应用，更是一个综合运用了Spring Boot生态、JPA数据持久化、RESTful API设计和后端性能优化等关键技术的实战项目。通过本项目的开发，全面展示了独立设计和开发一个现代化后端服务的能力。
+```
+.
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com/example/_S_Hub_Backend
+│   │   │       ├── Application.java          # Spring Boot 启动类
+│   │   │       ├── config                    # 全局配置包
+│   │   │       │   ├── ErrorPageConfig.java  # 错误页面配置
+│   │   │       │   └── GlobalCorsConfig.java # 全局跨域配置
+│   │   │       ├── controller                # 控制器层 (API接口)
+│   │   │       │   ├── request               # 请求体封装对象 (Request DTOs)
+│   │   │       │   └── ... (UserController, etc.)
+│   │   │       ├── converter                 # DTO与实体转换器
+│   │   │       │   └── CommentConverter.java
+│   │   │       ├── domain                    # 领域模型 (JPA实体)
+│   │   │       │   ├── Article.java
+│   │   │       │   ├── User.java
+│   │   │       │   └── ...
+│   │   │       ├── dto                       # 数据传输对象 (Response DTOs)
+│   │   │       │   └── SimpleCommentDTO.java
+│   │   │       ├── repository                # 数据访问层 (JPA Repositories)
+│   │   │       │   ├── ArticleRepository.java
+│   │   │       │   └── ...
+│   │   │       ├── resultmap                 # 自定义查询结果映射
+│   │   │       │   └── ViewArtAndUser.java
+│   │   │       └── service                   # 业务逻辑层
+│   │   │           ├── impl                  # 业务逻辑实现类
+│   │   │           └── ... (UserService, etc.)
+│   │   └── resources
+│   │       ├── application.properties      # Spring Boot 核心配置文件
+│   │       ├── static                      # 静态资源 (CSS, JS, Images)
+│   │       └── templates                   # 模板文件 (e.g., Thymeleaf)
+│   └── test                              # 测试代码
+├── .gitignore                          # Git忽略文件配置
+├── mvnw & mvnw.cmd                     # Maven Wrapper, 用于统一Maven版本
+├── pom.xml                             # Maven项目核心配置文件
+└── README.md                           # 项目说明文档
+```
+
+### 目录核心功能解释
+
+-   **`config`**: 存放全局性的配置类。例如 `GlobalCorsConfig` 用于统一处理跨域请求，`ErrorPageConfig` 用于自定义错误响应。
+-   **`controller`**: MVC 模式中的 C 层，负责接收外部 HTTP 请求，调用 `Service` 层处理业务，并返回响应。
+    -   **`controller.request`**: 存放用于接收前端 POST/PUT 请求体的 DTO，通常用于创建或更新资源。
+-   **`domain`**: 存放 JPA 实体类（Entity），与数据库表结构一一对应，是核心的领域模型。
+-   **`dto`**: 存放数据传输对象（Data Transfer Object），用于在 `Service` 层和 `Controller` 层之间传递数据，避免直接暴露数据库实体，实现内外隔离。
+-   **`converter`**：存放实体（Entity）与 DTO 之间的转换逻辑，使得转换过程标准化、可复用。
+-   **`repository`**: 数据访问层，继承 Spring Data JPA 的 `JpaRepository`，提供强大的数据 CRUD（增删改查）和自定义查询能力。
+-   **`service`**: 业务逻辑核心层，负责编排和实现具体的业务功能。它会调用 `Repository` 层来持久化数据。
+    -   **`service.impl`**: `Service` 接口的具体实现类。
+-   **`resultmap`**: 当 JPA 查询需要返回非实体类的自定义复合结构时，用于定义这些结果的映射类，如 `ViewArtAndUser`。
+-   **`resources`**: 存放所有非代码的资源文件。
+    -   `application.properties`: Spring Boot 的主配置文件，用于配置数据库连接、服务器端口等。
+    -   
