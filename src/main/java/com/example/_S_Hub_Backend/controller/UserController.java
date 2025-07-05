@@ -19,6 +19,7 @@ import java.util.List;
  * - getHotUsers: 分页查询热门用户
  * - signUp: 用户注册
  * - getUserList: 获取所有用户列表
+ * - getUserById: 根据用户ID获取用户信息
  */
 @RestController
 @RequestMapping("/user")
@@ -72,5 +73,15 @@ public class UserController {
     @PostMapping("/list")
     public List<User> getUserList() {
         return userRepository.findAll();
+    }
+
+    /**
+     * 根据用户ID获取用户信息
+     * @param userId 用户ID
+     * @return User 用户信息，如果用户不存在则返回null
+     */
+    @GetMapping("/{userId}")
+    public User getUserById(@PathVariable Long userId) {
+        return userService.getUserById(userId);
     }
 }

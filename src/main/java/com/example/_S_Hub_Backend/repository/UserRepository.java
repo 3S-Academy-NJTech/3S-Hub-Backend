@@ -12,5 +12,12 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User,Long> {
     User findUserByUserEmailAndUserPassword(String userEmail, String userPassword);
     User findByUserEmail(String userEmail);
+    
+    /**
+     * 根据用户ID查找用户信息
+     * @param userId 用户ID
+     * @return User 用户信息，如果不存在则返回null
+     */
+    User findByUserId(Long userId);
 }
 

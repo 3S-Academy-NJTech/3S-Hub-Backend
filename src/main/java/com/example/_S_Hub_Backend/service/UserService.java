@@ -13,4 +13,11 @@ import com.example._S_Hub_Backend.domain.User;
 public interface UserService {
     User userLogin(String email,String password);
     User userRegister(User user);
+    
+    /**
+     * 根据用户ID获取用户信息
+     * @param userId 用户ID
+     * @return User 用户信息，如果不存在则返回null
+     */
+    User getUserById(Long userId);
 }

@@ -30,4 +30,9 @@ public class UserServiceImpl implements UserService {
     public User userRegister(User user) {
         return userRepository.save(user);
     }
+
+    @Override
+    public User getUserById(Long userId) {
+        return userRepository.findByUserId(userId);
+    }
 }
